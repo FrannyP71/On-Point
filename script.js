@@ -4,7 +4,7 @@ $(document).ready(function () {
     $("date").text(today.format('dddd, MMM D, YYYY'));
 
     var time = dayjs();
-    $("time").text(today.format('h:mm:ss a'))
+    $("time").text(today.format('h:mm:ss a'));
 
   $(".saveBtn").on("click", function () {
       console.log(this);
