@@ -1,52 +1,61 @@
-$(document).ready(function () {
+const localeSettings = {};
+  dayjs.locale(localeSettings);
 
-    var today = dayjs();
-    $("date").text(today.format('dddd, MMM D, YYYY'));
+  $(function () {
 
-    var time = dayjs();
-    $("time").text(today.format('h:mm:ss a'));
+    const currentHour = dayjs().format('H');
 
-  $(".saveBtn").on("click", function () {
-      console.log(this);
-      var text = $(this).siblings(".description").val();
-      var time = $(this).parent().attr("id");
+    function hourlyColor() {
+      $('.time-block').each(function() {
+        const blockHour = parseInt(this.id);
+        $(this).toggleClass('past', blockHour < currentHour);
+        $(this).toggleClass('present', blockHour === currentHour);
+        $(this).toggleClass('future', blockHour > currentHour);
+      });
+    }
 
-      localStorage.setItem(time, text);
-  })
-  $("#hour9.description").val(localStorage.getItem("hour9"));
-  $("#hour10.description").val(localStorage.getItem("hour10"));
-  $("#hour11.description").val(localStorage.getItem("hour11"));
-  $("#hour12.description").val(localStorage.getItem("hour12"));
-  $("#hour13.description").val(localStorage.getItem("hour13"));
-  $("#hour14.description").val(localStorage.getItem("hour14"));
-  $("#hour15.description").val(localStorage.getItem("hour15"));
-  $("#hour16.description").val(localStorage.getItem("hour16"));
-  $("#hour17.description").val(localStorage.getItem("hour17"));
+    function textEntry() {
+      $('.saveBtn').on('click', function() {
+        const key = $(this).parent().attr('id');
+        const value = $(this).siblings('.description').val();
+        localStorage.setItem(key, value);
+      });
+    }
 
+    function refreshColor() {
+      $('.time-block').each(function() {
+        const blockHour = parseInt(this.id);
+        if (blockHour == currentHour) {
+          $(this).removeClass('past future').addClass('present');
+        } else if (blockHour < currentHour) {
+          $(this).removeClass('future present').addClass('past');
+        } else {
+          $(this).removeClass('past present').addClass('future');
+        }
+      });
+    }
 
-  function hourTracker() {
-      var currentHour = moment().hour();
+    $('.time-block').each(function() {
+      const key = $(this).attr('id');
+      const value = localStorage.getItem(key);
+      $(this).children('.description').val(value);
+    });
+  
+    
+    
+    function updateTime() {
+      const dateElement = $('#date');
+      const timeElement = $('#time');
+      const currentDate = dayjs().format('MMMM D, YYYY');
+      const currentTime = dayjs().format('hh:mm:ss A');
+      dateElement.text(currentDate);
+      timeElement.text(currentTime);
+    }
 
-      $(".time-block").each(function () {
-          var blockHour = parseInt($(this).attr("id").split("hour")[1]);
-          console.log( blockHour, currentHour)
-
-          if (blockHour < currentHour) {
-              $(this).addClass("past");
-              $(this).removeClass("future");
-              $(this).removeClass("present");
-          }
-          else if (blockHour === currentHour) {
-              $(this).removeClass("past");
-              $(this).addClass("present");
-              $(this).removeClass("future");
-          }
-          else {
-              $(this).removeClass("present");
-              $(this).removeClass("past");
-              $(this).addClass("future");
-          }
-      })
-  }
-  hourTracker();
-})
+    hourlyColor();
+    textEntry();                
+    refreshColor();
+    
+    
+    setInterval(updateTime, 1000);
+  });
