@@ -1,11 +1,12 @@
 const localeSettings = {};
   dayjs.locale(localeSettings);
-
+  
   $(function () {
-
+    
     const currentHour = dayjs().format('H');
 
-    function hourlyColor() {
+
+    function hourColor() {
       $('.time-block').each(function() {
         const blockHour = parseInt(this.id);
         $(this).toggleClass('past', blockHour < currentHour);
@@ -22,7 +23,7 @@ const localeSettings = {};
       });
     }
 
-    function refreshColor() {
+    function colorRefresh() {
       $('.time-block').each(function() {
         const blockHour = parseInt(this.id);
         if (blockHour == currentHour) {
@@ -41,21 +42,21 @@ const localeSettings = {};
       $(this).children('.description').val(value);
     });
   
-    
-    
+
+
     function updateTime() {
       const dateElement = $('#date');
       const timeElement = $('#time');
-      const currentDate = dayjs().format('MMMM D, YYYY');
+      const currentDate = dayjs().format('dddd, MMMM D, YYYY');
       const currentTime = dayjs().format('hh:mm:ss A');
       dateElement.text(currentDate);
       timeElement.text(currentTime);
     }
 
-    hourlyColor();
+    hourColor();
     textEntry();                
-    refreshColor();
-    
-    
+    colorRefresh();
+
+
     setInterval(updateTime, 1000);
   });
