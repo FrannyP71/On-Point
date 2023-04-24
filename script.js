@@ -6,15 +6,6 @@ const localeSettings = {};
     const currentHour = dayjs().format('H');
 
 
-    function hourColor() {
-      $('.time-block').each(function() {
-        const blockHour = parseInt(this.id);
-        $(this).toggleClass('past', blockHour < currentHour);
-        $(this).toggleClass('present', blockHour === currentHour);
-        $(this).toggleClass('future', blockHour > currentHour);
-      });
-    }
-
     function textEntry() {
       $('.saveBtn').on('click', function() {
         const key = $(this).parent().attr('id');
@@ -25,7 +16,7 @@ const localeSettings = {};
 
     function colorRefresh() {
       $('.time-block').each(function() {
-        const blockHour = parseInt(this.id);
+        const blockHour = parseInt(this.id.split('-')[1])      
         if (blockHour == currentHour) {
           $(this).removeClass('past future').addClass('present');
         } else if (blockHour < currentHour) {
@@ -53,7 +44,6 @@ const localeSettings = {};
       timeElement.text(currentTime);
     }
 
-    hourColor();
     textEntry();                
     colorRefresh();
 
