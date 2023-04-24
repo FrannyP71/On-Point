@@ -5,5 +5,7 @@ Stay on point with this daily planner to manage your time effectively and help w
 When you open the planner the current day is displayed at the top. When you scroll down you'll see time blocks for a typical 8 hour day. Each block is color coded to indicate the past, present and future. You can enter an event in each time block and save.
 
 
+https://frannyp71.github.io/On-Point/
 
-![challenge-3-pw-gen](./on-point.png)
+
+![challenge-3-pw-gen](./assets/on-point.png)
